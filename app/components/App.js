@@ -9,7 +9,7 @@ import { useDeepgram } from "../context/DeepgramContextProvider";
 import { useMicrophone } from "../context/MicrophoneContextProvider";
 import { EventType, useVoiceBot, VoiceBotStatus } from "../context/VoiceBotContextProvider";
 import { createAudioBuffer, playAudioBuffer } from "../utils/audioUtils";
-import { sendSocketMessage, sendMicToSocket } from "app/utils/deepgramUtils";
+import { sendSocketMessage, sendMicToSocket, withBasePath } from "app/utils/deepgramUtils";
 import { isMobile } from "react-device-detect";
 import { usePrevious } from "@uidotdev/usehooks";
 import { useStsQueryParams } from "app/hooks/UseStsQueryParams";
@@ -306,6 +306,7 @@ export const App = ({
 
       try {
         const parsedData = JSON.parse(data);
+        console.log('Parsed data:', parsedData);
 
         /**
          * Nothing was parsed so return an error.
@@ -356,6 +357,36 @@ export const App = ({
           if (!tts_latency || !ttt_latency) return;
           const latencyMessage = { tts_latency, ttt_latency, total_latency };
           addVoicebotMessage(latencyMessage);
+        }
+        if (parsedData.type === 'FunctionCallRequest') {
+          const { function_name, function_call_id, input } = parsedData;
+          
+          const handleFunctionCall = async () => {
+            try {
+              const response = await fetch(`/api/functions/${function_name}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(input)
+              });
+              
+              const result = await response.json();
+              
+              sendSocketMessage(socket, {
+                type: 'FunctionCallResponse',
+                function_call_id,
+                output: JSON.stringify(result)
+              });
+              
+            } catch (error) {
+              sendSocketMessage(socket, {
+                type: 'FunctionCallResponse',
+                function_call_id,
+                error: error.message
+              });
+            }
+          };
+
+          handleFunctionCall();
         }
       } catch (error) {
         console.error(data, error);

@@ -62,32 +62,23 @@ export interface StsConfig {
   context?: ContextConfig;
 }
 
-export interface LlmFunction {
+export type LlmFunction = {
   name: string;
   description: string;
-  url: string;
-  method: string;
-  headers: Header[];
-  key?: string;
   parameters: LlmParameterObject | Record<string, never>;
-}
+};
 
-export type LlmParameter = LlmParameterScalar | LlmParameterObject;
-
-export interface LlmParameterBase {
-  type: string;
-  description?: string;
-}
-
-export interface LlmParameterObject extends LlmParameterBase {
+type LlmParameterObject = {
   type: "object";
   properties: Record<string, LlmParameter>;
   required?: string[];
-}
+};
 
-export interface LlmParameterScalar extends LlmParameterBase {
-  type: "string" | "integer";
-}
+type LlmParameter = {
+  type: string;
+  description: string;
+  enum?: string[];
+};
 
 export interface Header {
   key: string;

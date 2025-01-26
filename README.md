@@ -1,84 +1,98 @@
-# Deepgram Voicebot
+# Deepgram Voice Agent Demo
 
-[![Discord](https://dcbadge.vercel.app/api/server/xWRaCDBtW4?style=flat)](https://discord.gg/xWRaCDBtW4)
-
-A demo is live at https://deepgram.com/agent
-
-Table of contents:
-
-- [Prerequisites](#prerequisites)
-- [Getting started](#getting-started)
-
-## Getting an API Key
-
-🔑 To access the Deepgram API you will need a [free Deepgram API Key](https://console.deepgram.com/signup?jump=keys).
+A Next.js application demonstrating Deepgram's Voice Agent capabilities. Live demo at https://deepgram.com/agent
 
 ## Prerequisites
 
-- [Node v20](https://nodejs.org/en/download/) or higher (though I recommend installing it through [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- [Node.js v20](https://nodejs.org/en/download/) or higher (recommended to install via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
 - [yarn](https://classic.yarnpkg.com/en/docs/install)
+- [Deepgram API Key](https://console.deepgram.com/signup?jump=keys) with `usage:write` scope
 
-## Getting started
+## Getting Started
 
-Assuming you want to develop "locally", i.e. bring-your-own-key, just set a `DEEPGRAM_API_KEY`
-environment variable and run the `dev` command. Any DG key will do, it just needs `usage:write`.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/deepgram-devs/deepgram-voice-agent-demo.git
+   cd deepgram-voice-agent-demo
+   ```
 
-### Create a .env file
+2. **Create environment file**
+   ```bash
+   # Create .env file in project root
+   DEEPGRAM_API_KEY=<your-deepgram-api-key>
+   ```
+   Note: When creating the API Key, select "Member" role for proper permissions.
 
-Create a `.env` file in the root of the project and add the following:
+3. **Install dependencies**
+   ```bash
+   yarn install
+   ```
+
+4. **Run the development server**
+   ```bash
+   yarn dev
+   ```
+   Visit the URL provided by Next.js (typically http://localhost:3000)
+
+## Project Structure
 
 ```
-DEEPGRAM_API_KEY=<your-deepgram-api-key>
+app/
+├── api/                  # Backend API endpoints
+│   └── authenticate/     # Authentication handling
+├── components/          # React components
+│   ├── icons/          # SVG icons & visual assets
+│   └── VoiceSelector/  # Voice selection feature
+├── context/            # State management
+│   ├── DeepgramContext     # WebSocket connection
+│   ├── MicrophoneContext   # Audio input
+│   └── VoiceBotContext     # Bot state & messages
+├── hooks/              # Custom React hooks
+├── utils/              # Helper functions
+└── lib/               # Constants & shared code
 ```
 
-Note: When creating the API Key make sure to select "Member" as the role and not "Default" so that the API Key has permissions to create new API Keys.
+### Key Components
+- `App.js` - Main application component
+- `Header.tsx` - Navigation and voice selection
+- `Conversation.tsx` - Chat display
+- `Intelligence.tsx` - Voice interaction feedback
+- `AnimationManager.tsx` - Visual effects
 
-See `sample.env.local` for more details.
+### State Management
+- Uses React Context for global state
+- Separate contexts for:
+  - Deepgram connection
+  - Microphone handling
+  - Voice bot state
 
-### Use a CLI-compatible password manager
+## Development Guide
 
-**Remember:** use minimally-privileged keys, avoid sending them in shell commands, and avoid saving
-them as plaintext to files! One secure approach is to use a CLI-compatible password manager like
-[pass](https://www.passwordstore.org/) or [bitwarden](https://bitwarden.com/help/cli/). A `pass`
-example:
+### Adding New Features
 
-```sh
-DEEPGRAM_API_KEY=$(pass deepgram/my-key) yarn dev
-```
+1. **New Routes**
+   ```
+   app/your-route/page.tsx      # Page component
+   app/api/your-route/route.js  # API endpoint (if needed)
+   ```
 
-### Installing dependencies
+2. **New Components**
+   ```
+   components/YourComponent.tsx          # Simple components
+   components/YourFeature/              # Complex features
+   ├── index.tsx
+   └── SubComponents.tsx
+   ```
 
-```sh
-yarn install
-```
+3. **State Management**
+   ```
+   context/YourContext.tsx    # Global state
+   hooks/useYourFeature.tsx  # Reusable logic
+   ```
 
-### Running the app
-
-```sh
-yarn dev
-```
-
-When Next.js starts up, it'll give you a localhost URL to visit.
-
-## Documentation
-
-You can learn more about the Deepgram API at [developers.deepgram.com](https://developers.deepgram.com/docs).
-
-## Development and Contributing
-
-Interested in contributing? We ❤️ pull requests!
-
-To make sure our community is safe for all, be sure to review and agree to our
-[Code of Conduct](./.github/CODE_OF_CONDUCT.md). Then see the
-[Contribution](./.github/CONTRIBUTING.md) guidelines for more information.
-
-## Getting Help
-
-We love to hear from you so if you have questions, comments or find a bug in the
-project, let us know! You can either:
-
-- [Open an issue in this repository](https://github.com/deepgram-devs/deepgram-voice-agent-demo/issues/new)
-- [Join the Deepgram Github Discussions Community](https://github.com/orgs/deepgram/discussions)
-- [Join the Deepgram Discord Community](https://discord.gg/xWRaCDBtW4)
-
-[license]: LICENSE.txt
+### Best Practices
+- Use TypeScript for type safety
+- Follow existing folder structure
+- Keep components focused and reusable
+- Use contexts for global state
+- Place utilities in appropriate folders
