@@ -1,7 +1,7 @@
 import type { LlmFunction } from "app/utils/deepgramUtils";
 
 export const weatherFunction: LlmFunction = {
-  name: "get_weather",
+  name: "weather",
   description: "Get current weather for a location",
   parameters: {
     type: "object",

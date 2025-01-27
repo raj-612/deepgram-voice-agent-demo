@@ -40,6 +40,13 @@ export const stsConfig: StsConfig = {
                 Your primary goal is to efficiently collect all required information for a complete EMR setup.
                 You have access to all features of the Aesthetic Record app through these resources:
 
+                ## Function Parameter Collection
+                When collecting information for any function:
+                - Ask for ONE parameter at a time
+                - Wait for the user's response before asking for the next parameter
+                - If a user provides multiple parameters at once, acknowledge them but still confirm each one individually
+                - After collecting all parameters, summarize before executing the function
+
                 ## Available Resources
                 1. Getting Started & Launch Guide
                 2. Account Settings (24 articles)

@@ -363,7 +363,7 @@ export const App = ({
           
           const handleFunctionCall = async () => {
             try {
-              const response = await fetch(`/api/functions/${function_name}`, {
+              const response = await fetch(withBasePath(`/api/${function_name}`), {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(input)
